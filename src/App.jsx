@@ -1,64 +1,70 @@
-import React, { useState, useRef, useMemo, useCallback, useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 import './App.css'
-import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet'
 import 'leaflet/dist/leaflet.css'
-import { useImmer } from 'use-immer'
-import { produce } from 'immer'
 import * as L from 'leaflet'
 import '@geoman-io/leaflet-geoman-free'
 import '@geoman-io/leaflet-geoman-free/dist/leaflet-geoman.css'
 
-function App () {
-  const [markerStore, setMarkerStore] = useImmer([])
-  const [view, setView] = useState([23.58, 120.58])
-  // const markerLayerGroup = L.layerGroup()
-  function putMarkerOn (markerStore, map) {
-    markerStore.map(marker => { L.marker([marker.lat, marker.lng]).addTo(map) })
-  }
-  useEffect(() => {
-    // Create the map
-    const map = L.map('map').setView(view, 13)
 
-    // Add TileLayer
+
+function App () {
+  const [featureGroup,setF] = useState(null)
+  
+  const queryParams = new URLSearchParams(window.location.search)
+  const geojsonData = queryParams.get('geojson')
+  
+  const [url,setUrl] = useState('need generate')
+  useEffect(() => {
+
+    const map = L.map('map').setView([23.58, 120.58], 13)
     L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
       maxZoom: 19,
       attribution: '© OpenStreetMap'
-    }).addTo(map)
-
-    // Add Leaflet-PM controls
+    }).addTo(map) 
+//feature layer    
+    const fg = L.featureGroup().addTo(map)
+    setF(fg)
+//bar
     map.pm.addControls({
       position: 'topleft',
       drawCircleMarker: false,
       rotateMode: false
     })
+    map.pm.setGlobalOptions({layerGroup: fg})
 
-    const handleMarkerClick = (event) => {
-      setMarkerStore(produce(markerStore, draft => { draft.push(event.marker._latlng) }))
-      setView([event.marker._latlng.lat, event.marker._latlng.lng])
+//add json to the feature layer
+    if(geojsonData){
+      const decodeGeoJSON = JSON.parse(decodeURIComponent(geojsonData))
+      const newJ = L.geoJSON(decodeGeoJSON)
+      newJ.addTo(fg)
     }
-    map.on('pm:create', (e) => {
-      if(e.shape==='Marker'){
-        handleMarkerClick(e)
-      }
-    })
-    putMarkerOn(markerStore, map) 
-    // Clean up function
+
+
     return () => {  
-      map.off('pm:create', handleMarkerClick)
       map.remove()
     }
-  }, [markerStore])
+  }, [])
+
+// create new url
+  const getEncodedGeoJSON = () => {
+    if(!featureGroup){
+      return
+    }
+    const GeoData = featureGroup.toGeoJSON()
+    const encodeData = encodeURIComponent(JSON.stringify(GeoData))
+    console.log(GeoData)
+    console.log(encodeData)
+    setUrl(`http://localhost:5173/?geojson=${encodeData}`)
+  };
   
 
   return (
     <>
       <div id='map' />
-      <ul> {markerStore.map((position, index) => (
-        <li key={index}>
-          Marker {index + 1}: Latitude: {position.lat}, Longitude: {position.lng}
-        </li>
-      ))}
-      </ul>
+      <button onClick={getEncodedGeoJSON}>generate new url</button>
+      <a href={url} target="_blank" rel="noopener noreferrer">
+        {url}
+      </a>
     </>
   )
 }
