@@ -35,7 +35,8 @@ L.Icon.Default.mergeOptions({
     map.pm.addControls({
       position: 'topleft',
       drawCircleMarker: false,
-      rotateMode: false
+      rotateMode: false,
+      drawCircle:false
     })
     map.pm.setGlobalOptions({layerGroup: fg})
 
