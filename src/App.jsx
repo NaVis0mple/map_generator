@@ -15,7 +15,7 @@ function App () {
   
   const [url,setUrl] = useState('need generate')
   useEffect(() => {
-
+    L.icon({iconUrl:'./img/marker-icon.png'})
     const map = L.map('map').setView([23.58, 120.58], 13)
     L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
       maxZoom: 19,
@@ -52,8 +52,6 @@ function App () {
     }
     const GeoData = featureGroup.toGeoJSON()
     const encodeData = encodeURIComponent(JSON.stringify(GeoData))
-    console.log(GeoData)
-    console.log(encodeData)
     setUrl(`https://map-generator.pages.dev/?geojson=${encodeData}`)
   };
   
