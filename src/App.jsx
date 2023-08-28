@@ -4,7 +4,7 @@ import 'leaflet/dist/leaflet.css'
 import * as L from 'leaflet'
 import '@geoman-io/leaflet-geoman-free'
 import '@geoman-io/leaflet-geoman-free/dist/leaflet-geoman.css'
-
+import markerIconUrl from './img/marker-icon.png'
 
 
 function App () {
@@ -15,7 +15,12 @@ function App () {
   
   const [url,setUrl] = useState('need generate')
   useEffect(() => {
-    L.icon({iconUrl:'./img/marker-icon.png'})
+    L.icon({
+      iconUrl: markerIconUrl,
+      iconSize: [32, 32],       
+      iconAnchor: [16, 32],    
+      popupAnchor: [0, -32]    
+  });
     const map = L.map('map').setView([23.58, 120.58], 13)
     L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
       maxZoom: 19,
