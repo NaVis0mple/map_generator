@@ -54,7 +54,7 @@ function App () {
     const encodeData = encodeURIComponent(JSON.stringify(GeoData))
     console.log(GeoData)
     console.log(encodeData)
-    setUrl(`http://localhost:5173/?geojson=${encodeData}`)
+    setUrl(`https://map-generator.pages.dev/?geojson=${encodeData}`)
   };
   
 
