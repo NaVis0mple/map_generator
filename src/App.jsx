@@ -15,7 +15,7 @@ import 'leaflet-switch-basemap/src/L.switchBasemap.css'
 
 function App () {
   const [featureGroup, setF] = useState(null)
-
+  const [response, setResponse] = useState('');
   const queryParams = new URLSearchParams(window.location.search)
   const geojsonTextData = queryParams.get('text')
   const geojsonNonTextData = queryParams.get('nontext')
@@ -118,7 +118,16 @@ function App () {
 
     setUrl(`https://map-generator.pages.dev/?text=${encodeTextData}&nontext=${encodeNonTextData}`)
   }
-
+  useEffect(() => {
+    fetch('/helloworld') // Replace with the correct route of your Pages Function
+      .then(response => response.text())
+      .then(data => {
+        setResponse(data);
+      })
+      .catch(error => {
+        console.error('Error fetching data:', error);
+      });
+  }, []);
   return (
     <>
       <div id='map' />
@@ -126,6 +135,7 @@ function App () {
       <a href={url} target='_blank' rel='noopener noreferrer'>
         {url}
       </a>
+      <p>{response}</p>
     </>
   )
 }
