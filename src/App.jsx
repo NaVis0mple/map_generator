@@ -119,7 +119,7 @@ function App () {
     setUrl(`https://map-generator.pages.dev/?text=${encodeTextData}&nontext=${encodeNonTextData}`)
   }
   useEffect(() => {
-    fetch('/helloworld') // Replace with the correct route of your Pages Function
+    fetch('/kv') // Replace with the correct route of your Pages Function
       .then(response => response.text())
       .then(data => {
         setResponse(data);
