@@ -10,7 +10,7 @@ import markerShadow from 'leaflet/dist/images/marker-shadow.png'
 import 'leaflet-switch-basemap'
 import 'leaflet-switch-basemap/src/L.switchBasemap.js'
 import 'leaflet-switch-basemap/src/L.switchBasemap.css'
-
+import github from '/github-mark.png'
 
 
 function App () {
@@ -29,7 +29,7 @@ function App () {
           attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         }).addTo(map), //DEFAULT MAP
         icon: '/openstreet_icon.png',
-        name: 'Map one'
+        name: 'openstreet'
       },
       {
         layer:L.tileLayer('https://tiles.stadiamaps.com/tiles/osm_bright/{z}/{x}/{y}{r}.{ext}', {
@@ -41,11 +41,11 @@ function App () {
         name: 'osm bright'
       },
       {
-        layer: L.tileLayer('https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png', {
-          attribution: 'Map data: &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, <a href="http://viewfinderpanoramas.org">SRTM</a> | Map style: &copy; <a href="https://opentopomap.org">OpenTopoMap</a> (<a href="https://creativecommons.org/licenses/by-sa/3.0/">CC-BY-SA</a>)'
+        layer: L.tileLayer('https://tile.thunderforest.com/transport/{z}/{x}/{y}.png?apikey=26b31d2f18ff4c829a13a9a00c3aa794', {
+          attribution: '&copy; <a href="http://www.thunderforest.com/">Thunderforest</a>, &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         }),
-        icon: '/public/osmbright_icon.png',
-        name: 'Map three'
+        icon: '/thunderforest_transport.icon.png',
+        name: 'transport'
       },
     ], { position: 'topright' }).addTo(map);
     
@@ -126,6 +126,18 @@ function App () {
       <a href={url} target='_blank' rel='noopener noreferrer'>
         {url}
       </a>
+      <div>
+        <ol>
+          <li>put marker on map</li>
+          <li>click generate url button</li>
+          <li>save the url , and use it next time</li>
+      </ol>
+      </div>
+      <div>warning: </div>
+      <div>1. data is save at url , but url has limit , so consider method 1.create new url 2. maybe url shortener help(I dont know) </div>
+      <div>2. if map tile not work , use 'openstreet' tile</div>
+      <div>3. this page is still under construction </div>
+      <div><a href='https://github.com/NaVis0mple/map_generator/tree/main' target='_blank'><img src={github} alt="github" /></a></div>
     </>
   )
 }
