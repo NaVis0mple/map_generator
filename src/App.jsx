@@ -15,7 +15,7 @@ import 'leaflet-switch-basemap/src/L.switchBasemap.css'
 
 function App () {
   const [featureGroup, setF] = useState(null)
-  const [response, setResponse] = useState('');
+
   const queryParams = new URLSearchParams(window.location.search)
   const geojsonTextData = queryParams.get('text')
   const geojsonNonTextData = queryParams.get('nontext')
@@ -27,36 +27,36 @@ function App () {
       .then(response => response.text())
       .then(data => {
         const numberdata = parseFloat(data)
-        setResponse(numberdata);
+        new L.basemapsSwitcher([
+          {
+            layer: L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+              attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+            }).addTo(map), //DEFAULT MAP
+            icon: '/openstreet_icon.png',
+            name: 'Map one'
+          },
+          {
+            layer:L.tileLayer('https://tiles.stadiamaps.com/tiles/osm_bright/{z}/{x}/{y}{r}.{ext}', {
+              maxZoom: 20,
+              attribution: '&copy; <a href="https://www.stadiamaps.com/" target="_blank">Stadia Maps</a> &copy; <a href="https://openmaptiles.org/" target="_blank">OpenMapTiles</a> &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+              ext: 'png'
+        }).addTo(map),
+            icon: '/osmbright_icon.png',
+            name: 'osm bright'
+          },
+          {
+            layer: L.tileLayer(`https://tile.thunderforest.com/transport/{z}/{x}/{y}.png?apikey=${numberdata}`, {
+              attribution: '&copy; <a href="http://www.thunderforest.com/">Thunderforest</a>, &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+            }),
+            icon: '/thunderforest_transport.icon.png',
+            name: 'thunderforest_transport'
+          },
+        ], { position: 'topright' }).addTo(map);
       })
       .catch(error => {
         console.error('Error fetching data:', error);
       })
-    new L.basemapsSwitcher([
-      {
-        layer: L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-          attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-        }).addTo(map), //DEFAULT MAP
-        icon: '/openstreet_icon.png',
-        name: 'Map one'
-      },
-      {
-        layer:L.tileLayer('https://tiles.stadiamaps.com/tiles/osm_bright/{z}/{x}/{y}{r}.{ext}', {
-          maxZoom: 20,
-          attribution: '&copy; <a href="https://www.stadiamaps.com/" target="_blank">Stadia Maps</a> &copy; <a href="https://openmaptiles.org/" target="_blank">OpenMapTiles</a> &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-          ext: 'png'
-    }).addTo(map),
-        icon: '/osmbright_icon.png',
-        name: 'osm bright'
-      },
-      {
-        layer: L.tileLayer(`https://tile.thunderforest.com/transport/{z}/{x}/{y}.png?apikey=${response}`, {
-          attribution: '&copy; <a href="http://www.thunderforest.com/">Thunderforest</a>, &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-        }),
-        icon: '/thunderforest_transport.icon.png',
-        name: 'thunderforest_transport'
-      },
-    ], { position: 'topright' }).addTo(map);
+    
     
 
     delete L.Icon.Default.prototype._getIconUrl
