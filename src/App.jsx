@@ -41,11 +41,11 @@ function App () {
         name: 'osm bright'
       },
       {
-        layer: L.tileLayer('https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png', {
-          attribution: 'Map data: &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, <a href="http://viewfinderpanoramas.org">SRTM</a> | Map style: &copy; <a href="https://opentopomap.org">OpenTopoMap</a> (<a href="https://creativecommons.org/licenses/by-sa/3.0/">CC-BY-SA</a>)'
+        layer: L.tileLayer(`https://tile.thunderforest.com/transport/{z}/{x}/{y}.png?apikey=${response}`, {
+          attribution: '&copy; <a href="http://www.thunderforest.com/">Thunderforest</a>, &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         }),
-        icon: '/public/osmbright_icon.png',
-        name: 'Map three'
+        icon: '/thunderforest_transport.icon.png',
+        name: 'thunderforest_transport'
       },
     ], { position: 'topright' }).addTo(map);
     
@@ -135,7 +135,6 @@ function App () {
       <a href={url} target='_blank' rel='noopener noreferrer'>
         {url}
       </a>
-      <p>{response}</p>
     </>
   )
 }
