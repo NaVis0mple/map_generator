@@ -11,7 +11,8 @@ import 'leaflet-switch-basemap'
 import 'leaflet-switch-basemap/src/L.switchBasemap.js'
 import 'leaflet-switch-basemap/src/L.switchBasemap.css'
 import github from '/github-mark.png'
-
+import { GeoSearchControl, OpenStreetMapProvider ,SearchControl} from 'leaflet-geosearch'
+import 'leaflet-geosearch/dist/geosearch.css'
 
 function App () {
   const [featureGroup, setF] = useState(null)
@@ -67,7 +68,14 @@ function App () {
       drawCircle: false
     })
     map.pm.setGlobalOptions({ layerGroup: fg })
-
+    //
+    const searchControl = new SearchControl({
+      notFoundMessage: 'Sorry, that address could not be found.',
+      provider: new OpenStreetMapProvider(),
+      style: 'bar',
+      showMarker:false,
+    });
+    map.addControl(searchControl)
     // add json to the feature layer
     if (geojsonNonTextData) {
       const decodeGeoJSON = JSON.parse(decodeURIComponent(geojsonNonTextData))
