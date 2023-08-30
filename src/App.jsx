@@ -25,8 +25,7 @@ function App () {
     const map = L.map('map').setView([23.58, 120.58], 13)
     fetch('/kv') // Replace with the correct route of your Pages Function
       .then(response => response.text())
-      .then(data => {
-        const numberdata = parseFloat(data)
+      .then(apikey => {
         new L.basemapsSwitcher([
           {
             layer: L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -45,7 +44,7 @@ function App () {
             name: 'osm bright'
           },
           {
-            layer: L.tileLayer(`https://tile.thunderforest.com/transport/{z}/{x}/{y}.png?apikey=${numberdata}`, {
+            layer: L.tileLayer(`https://tile.thunderforest.com/transport/{z}/{x}/{y}.png?apikey=${apikey}`, {
               attribution: '&copy; <a href="http://www.thunderforest.com/">Thunderforest</a>, &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
             }),
             icon: '/thunderforest_transport.icon.png',
