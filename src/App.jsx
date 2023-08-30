@@ -26,7 +26,8 @@ function App () {
     fetch('/kv') // Replace with the correct route of your Pages Function
       .then(response => response.text())
       .then(data => {
-        setResponse(data);
+        const numberdata = parseFloat(data)
+        setResponse(numberdata);
       })
       .catch(error => {
         console.error('Error fetching data:', error);
