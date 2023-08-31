@@ -19,6 +19,6 @@ Url has max length , don't draw too many in certain url, you can use another new
 3. Decode the url 
 4. Put data on map
 ## Project status
-Stop stopped .This is build for practice react . But feel free to send email or use Issues 
+Stop stopped .This is build when I  practicing react,I am going to learn some new stuff . But feel free to send email or use Issues 
 ## License
 MIT
